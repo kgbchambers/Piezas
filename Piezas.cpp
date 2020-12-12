@@ -22,6 +22,14 @@
 **/
 Piezas::Piezas()
 {
+    board.resize(3); // Rows
+    for(int i = 0; i < board.size(); i++){
+        board[i].resize(4); // Columns
+        for(int j = 0; j < board[i].size(); j++){
+            board[i][j] = Blank; //Initialize all members to blank
+        }
+    }
+    turn = X;
 }
 
 /**
@@ -30,6 +38,11 @@ Piezas::Piezas()
 **/
 void Piezas::reset()
 {
+    for(int i=0; i < board.size(); i++){
+        for(int j=0; j < board[i].size(); j++){
+            board[i][j] = Blank; // Reset all locations to blank
+        }
+    }
 }
 
 /**
@@ -42,7 +55,24 @@ void Piezas::reset()
 **/ 
 Piece Piezas::dropPiece(int column)
 {
-    return Blank;
+    Piece current = turn;
+    if(turn == X){
+        turn = O;
+    }
+    else{
+        turn = O;
+    }
+
+    if(column >= board[0].size()){
+        return Invalid;
+    }
+    for(int i = 0; i < board.size(); i++){
+        if(board[i][column] == Blank){
+            board[i][column] = curTurn;
+            return curTurn;
+        }
+    }
+  return Blank; //Refactoring so i can get 100% code coverage. This is now the is full column case
 }
 
 /**
@@ -51,7 +81,10 @@ Piece Piezas::dropPiece(int column)
 **/
 Piece Piezas::pieceAt(int row, int column)
 {
-    return Blank;
+   if (column >= 0 && column < 4 && row >= 0 && row < 3){
+    return board[column][row];
+  }
+  return Invalid;
 }
 
 /**
